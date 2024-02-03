@@ -19,15 +19,9 @@ export async function fetchRevenue() {
         // Artificially delay a response for demo purposes.
         // Don't do this in production :)
 
-        console.log('Fetching revenue data...');
-        console.time()
         // await new Promise((resolve) => setTimeout(resolve, 2000));
 
         const data = await sql<Revenue>`SELECT * FROM revenue`;
-
-        console.log('Data fetch completed.');
-        console.timeEnd()
-
         return data.rows;
     } catch (error) {
         console.error('Database Error:', error);
@@ -185,9 +179,6 @@ export async function fetchInvoiceById(id: string) {
         }));
 
         const result = invoice[0];
-        // if(!result) {
-        //     throw new Error('No invoice found with id ' + id)
-        // }
         return result;
     } catch (error) {
         console.error('Database Error:', error);

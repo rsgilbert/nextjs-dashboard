@@ -4,9 +4,7 @@ import Form from "@/app/ui/invoices/create-form";
 
 
 export default async function Page() {
-    throw new Error('bad bad boy')
     const customers = await fetchCustomers()
-
 
     return (
         <main>
