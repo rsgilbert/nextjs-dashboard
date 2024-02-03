@@ -249,3 +249,10 @@ export async function getUser(email: string) {
         throw new Error('Failed to fetch user.');
     }
 }
+
+
+export async function currentUserName() {
+    noStore()
+    const resultSet = await sql`SELECT * FROM users`; // todo
+    return resultSet.rows[0].email;
+}
