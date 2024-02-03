@@ -31,7 +31,9 @@ export async function fetchRevenue() {
         return data.rows;
     } catch (error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch revenue data.');
+        throw error
+    //     throw new Error('Failed to fetch revenue data.');
+    //     console
     }
 }
 
@@ -98,6 +100,7 @@ export async function fetchCardData() {
             totalPendingInvoices,
         };
     } catch (error) {
+        throw error
         console.error('Database Error:', error);
         throw new Error('Failed to fetch card data.');
     }
