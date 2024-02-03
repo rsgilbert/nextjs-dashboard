@@ -41,7 +41,6 @@ export async function createInvoice(formData: FormData) {
 const UpdateInvoice = FormSchema.omit({ id: true, date: true })
 
 export async function updateInvoice(id: string, formData: FormData) {
-    console.log(formData.entries())
     const { customerId, amount, status } = UpdateInvoice.parse(Object.fromEntries(formData.entries()))
     const amountInCents = amount * 100
     try {
@@ -68,8 +67,6 @@ const DeleteInvoice = z.object({
     id: z.string()
 })
 export async function deleteInvoice(formData: FormData) {
-
-    throw new Error('bad error')
     const { id } = DeleteInvoice.parse(Object.fromEntries(formData.entries()))
     
     try {
