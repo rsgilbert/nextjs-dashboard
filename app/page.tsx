@@ -24,14 +24,8 @@ export default function Page() {
                         <strong
                             className={`${lusitana.className}`}
                         >Welcome to Acme.</strong>
-                        <br />
-                        <p className={`${lusitana.className}`}>We are good</p>
-                        <br />
-
-                        This is the example for the{' '}
-                        <a href="https://nextjs.org/learn/" className="text-blue-500">
-                            Next.js Learn Course
-                        </a>
+                   
+  
                     </p>
                     <Link
                         href="/login"
