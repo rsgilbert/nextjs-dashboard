@@ -14,30 +14,38 @@ const FormSchema = z.object({
 
 const CreateInvoice = FormSchema.omit({ id: true, date: true })
 export async function createInvoice(formData: FormData) {
-    const {customerId, amount,status } = CreateInvoice.parse({
+    throw new Error('we wont allow you')
+    const { customerId, amount, status } = CreateInvoice.parse({
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
         status: formData.get('status')
     })
     const amountInCents = amount * 100
     const date = new Date().toISOString().split('T')[0]
-    
-    await sql`
+
+    try {
+        await sql`
         INSERT INTO invoices (customer_id, amount, status, date)
         VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
     `
+    }
+    catch (e: any) {
+        return {
+            message: 'Database Error: Failed to create invoice, ' + e.message
+        }
+    }
     revalidatePath('/dashboard/invoices')
     redirect('/dashboard/invoices')
 }
 
 const UpdateInvoice = FormSchema.omit({ id: true, date: true })
 
-export async function updateInvoice( id: string, formData: FormData) {
+export async function updateInvoice(id: string, formData: FormData) {
     console.log(formData.entries())
     const { customerId, amount, status } = UpdateInvoice.parse(Object.fromEntries(formData.entries()))
-    const amountInCents = amount * 100 
-
-    await sql`
+    const amountInCents = amount * 100
+    try {
+        await sql`
         UPDATE invoices 
         SET 
             customer_id = ${customerId},
@@ -45,6 +53,12 @@ export async function updateInvoice( id: string, formData: FormData) {
             status = ${status}
         WHERE id = ${id}        
     `
+    }
+    catch (e: any) {
+        return {
+            message: 'Database Error: Failed to create invoice, ' + e.message
+        }
+    }
 
     revalidatePath('/dashboard/invoices')
     redirect('/dashboard/invoices')
@@ -53,12 +67,22 @@ export async function updateInvoice( id: string, formData: FormData) {
 const DeleteInvoice = z.object({
     id: z.string()
 })
-export async function deleteInvoice( formData: FormData) {
+export async function deleteInvoice(formData: FormData) {
+
+    throw new Error('bad error')
     const { id } = DeleteInvoice.parse(Object.fromEntries(formData.entries()))
-    await sql`
+    
+    try {
+        await sql`
         DELETE FROM invoices 
         WHERE id = ${id}        
     `
+    }
+    catch(e: any) {
+        return {
+            message: 'Database Error: Failed to create invoice, ' + e.message
+        }
+    }
     revalidatePath('/dashboard/invoices')
     redirect('/dashboard/invoices')
 }
